@@ -23,6 +23,7 @@ public class Application extends Controller {
     public static Result login() {
         return ok(views.html.login.render());
     }
+
     public static class LoginForm {
         @Constraints.Email
         @Constraints.Required
@@ -57,6 +58,16 @@ public class Application extends Controller {
         }
     }
     public static final Form<LoginForm> LOGIN_FORM = form(LoginForm.class);
+
+    @Transactional
+    public static Result saveRegistration(){
+        Form<LoginForm> registrationForm = LOGIN_FORM.bind(request().body().asJson());
+        if (registrationForm.hasErrors()) {
+            return badRequest(registrationForm.errorsAsJson());
+        }
+        LoginForm userForm = (LoginForm)registrationForm.get();
+        return ok();
+    }
 
     @Transactional
     public static Result authenticate() {
