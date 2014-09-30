@@ -1,9 +1,18 @@
 package controllers;
 
-
+import com.google.common.collect.Lists;
+import models.User;
+import org.apache.commons.lang3.StringUtils;
+import play.data.Form;
+import play.data.validation.Constraints;
+import play.data.validation.ValidationError;
+import play.db.ebean.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.*;
+import java.util.List;
+
+import static play.data.Form.form;
+
 
 public class Application extends Controller {
 
@@ -12,6 +21,49 @@ public class Application extends Controller {
     }
 
     public static Result login() {
-        return ok(login.render("Bejelentkezés"));
+        return ok(views.html.login.render());
+    }
+    public static class LoginForm {
+        @Constraints.Email
+        @Constraints.Required
+        public String email;
+
+        @Constraints.Required
+        @Constraints.MinLength(4)
+        public String password;
+
+        public User user;
+
+        public List<ValidationError> validate() {
+            List<ValidationError> errors = Lists.newArrayList();
+
+            if(StringUtils.isEmpty(email)) {
+                errors.add(new ValidationError("email", "error.required"));
+            }
+
+            if(StringUtils.isEmpty(password)) {
+                errors.add(new ValidationError("password", "error.required"));
+            }
+
+            if(!StringUtils.isEmpty(password) && !StringUtils.isEmpty(password)) {
+                user = User.authenticate(email, password);
+                if (user == null) {
+                    errors.add(new ValidationError("auth", "Error during authentication."));
+                    errors.add(new ValidationError("auth", "Wrong email or password."));
+                }
+            }
+
+            return errors.isEmpty()?null:errors;
+        }
+    }
+    public static final Form<LoginForm> LOGIN_FORM = form(LoginForm.class);
+
+    @Transactional
+    public static Result authenticate() {
+        Form<LoginForm> loginForm = LOGIN_FORM.bind(request().body().asJson());
+        if(loginForm.hasErrors()) {
+            return badRequest(loginForm.errorsAsJson());
+        }
+        return ok();
     }
 }
