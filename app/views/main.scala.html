@@ -46,7 +46,22 @@
 </head>
 
 <body ng-app="app">
-@content
+<div class="container">
+    <div class="navbar-wrapper">
+        <div id="menu-bar">
+            <ul class="nav navbar-default nav-justified">
+                <li><a href="">Felhasználói nézet</a></li>
+                <li><a href="">Admin felület</a></li>
+                <li><a href="">Kijelentkezés</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @content
+        </div>
+    </div>
+</div>
 </body>
 </html>
 
