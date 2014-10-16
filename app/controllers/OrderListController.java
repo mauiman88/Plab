@@ -13,11 +13,6 @@ public class OrderListController extends Controller {
 
     @Transactional
     public static Result list() {
-        User user = new User();
-        user.email = "test@example.com";
-        user.password = User.hashPassword("test");
-        user.name = "Test";
-        user.save();
         return ok(views.html.Order.orderList.render());
     }
 
