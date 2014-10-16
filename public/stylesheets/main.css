@@ -1,0 +1,45 @@
+#loginForm {
+  position: absolute;
+  top: 20%;
+  left: 38%;
+}
+#index-boxes {
+  margin-top: 30px;
+}
+#index-boxes .main-box-style {
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 4px;
+}
+#index-boxes small {
+  color: #eee;
+  font-size: 14px;
+}
+#index-boxes .box1 {
+  background-color: #ffb915;
+  line-height: 400px;
+  height: 400px;
+}
+#index-boxes .box2 {
+  background-color: #f04e31;
+  line-height: 180px;
+  height: 180px;
+}
+#index-boxes .box3 {
+  background-color: #5cb4a6;
+  line-height: 180px;
+  height: 180px;
+  margin-top: 40px;
+}
+#index-boxes .box4 {
+  background-color: #24b48c;
+  line-height: 400px;
+  height: 400px;
+}
+#index-boxes .centered {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+}
+/*# sourceMappingURL=main.css.map */
