@@ -1,0 +1,58 @@
+@()
+
+@scripts = {
+@helper.javascriptRouter("jsRouter")(
+controllers.routes.javascript.Application.login,
+controllers.routes.javascript.Application.authenticate
+)
+<script type="text/javascript">
+        app.controller('LoginController', ['$scope', function($scope) {
+
+            $scope.errors = {};
+            $scope.email = null;
+            $scope.password = null;
+
+            $scope.authenticate = function() {
+                $scope.errors = {};
+                jsRouter.controllers.Application.authenticate().ajax({
+                    method: 'post',
+                    cache: false,
+                    contentType: "application/json",
+                    data: JSON.stringify( {
+                        email : $scope.email,
+                        password : $scope.password
+                    }),
+                    success: function() {
+                        $scope.$apply(function() {
+                            window.location = "/";
+                        })
+                    },
+                    error: function(response) {
+                        $scope.$apply(function(){
+                            $scope.errors = response.responseJSON;
+                        });
+                    }
+                });
+            }
+        }])
+
+    </script>
+}
+
+@main("Login", scripts) {
+<div ng-controller="LoginController">
+    <form id="loginForm" class="form" role="form">
+        <div class="form-group">
+            <label for="inputEmail" class="control-label">Email</label>
+            <input type="email" ng-model="email" class="form-control" id="inputEmail" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class=" control-label">Password</label>
+            <input type="password" ng-model="password" class="form-control" id="inputPassword" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <button type="btn btn-success" ng-click="authenticate()" class="btn btn-default">Sign in</button>
+        </div>
+    </form>
+</div>
+}

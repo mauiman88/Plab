@@ -1,0 +1,30 @@
+@()
+
+@scripts = {
+        @helper.javascriptRouter("jsRouter")(
+        controllers.routes.javascript.OrderListController.list
+)
+<script type="text/javascript">
+        app.controller('LoginController', ['$scope', function($scope) {
+
+        }])
+
+    </script>
+}
+
+@main("OrderList", scripts) {
+
+<div ng-controller="OrderListController">
+    <div class="row" id="index-boxes">
+
+        <div class="col-md-6 list-group">
+            <a href="#" class="list-group-item active">TABLES</a>
+            <a href="#" class="list-group-item"><span class="badge">14</span>Open Tables</a>
+            <a href="#" class="list-group-item"><span class="badge">3</span>Available Tables</a>
+            <a href="#" class="list-group-item"><span class="badge">8</span>Paied Tables</a>
+        </div>
+
+    </div>
+</div>
+
+}
