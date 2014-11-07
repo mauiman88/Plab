@@ -9,5 +9,11 @@ GET     /login                      controllers.Application.login()
 POST    /authenticate               controllers.Application.authenticate()
 # Order
 GET     /orderList                  controllers.OrderListController.list()
+# Pizza
+GET     /pizzaList                  controllers.Pizzas.list()
+POST    /addPizza                   controllers.Pizzas.addPizza()
+GET     /getPizzaList               controllers.Pizzas.getPizzaList()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+

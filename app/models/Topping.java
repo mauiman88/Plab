@@ -19,6 +19,4 @@ public class Topping extends Model {
     @Column(scale = 4, precision = 15)
     public BigDecimal price;
 
-    @ManyToOne
-    public Pizza pizza;
 }

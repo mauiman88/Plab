@@ -7,7 +7,7 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Crypto;
 import play.libs.Json;
-import utils.JsonUtils;
+import utils.JSONUtils;
 
 import javax.persistence.*;
 import java.util.List;
@@ -76,7 +76,7 @@ public class User extends Model {
 
     public static ObjectNode queryUsers() {
         List<User> users = new Finder(String.class, User.class).all();
-        ArrayNode userArray = JsonUtils.newArrayNode();
+        ArrayNode userArray = JSONUtils.newArrayNode();
         for (User user : users) {
             userArray.add(user.toJson());
         }

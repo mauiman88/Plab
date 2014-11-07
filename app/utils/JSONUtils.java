@@ -1,21 +1,21 @@
 package utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.commons.lang3.StringUtils;
 import play.libs.Json;
 import play.twirl.api.Html;
 
+import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 
-/**
- * Created by gymate on 2014.09.30..
- */
+public class JSONUtils {
 
-
-public class JsonUtils {
-
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    public static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static ArrayNode newArrayNode() {
         return objectMapper.createArrayNode();
@@ -61,5 +61,39 @@ public class JsonUtils {
         return Html.apply(toJson(scala.collection.JavaConversions.asJavaCollection(values)));
     }
 
-}
 
+    private static final TypeReference<Map<String, Object>> stringObjectMapTypeRef = new TypeReference<Map<String, Object>>() {};
+    /**
+     * Create a map from json object
+     * @param json
+     * @return
+     */
+    public static Map<String, Object> toMap(String json) {
+        if(StringUtils.isEmpty(json) ) {
+            return null;
+        } else {
+            try {
+                return objectMapper.readValue(json, stringObjectMapTypeRef);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static <T> void update(T entity, JsonNode jsonNode) {
+        try {
+            objectMapper.readerForUpdating(entity).readValue(jsonNode);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String textOrNull(JsonNode jsonNode) {
+        return jsonNode == null ? null : (jsonNode.isNull() ? null : jsonNode.asText());
+    }
+
+    public static Long longOrNull(JsonNode jsonNode) {
+        return jsonNode == null ? null : (jsonNode.isNull() ? null : jsonNode.asLong());
+    }
+
+}

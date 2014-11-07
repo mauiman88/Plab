@@ -1,0 +1,99 @@
+@()
+
+@scripts = {
+    @helper.javascriptRouter("jsRouter")(
+        controllers.routes.javascript.Pizzas.list,
+        controllers.routes.javascript.Pizzas.addPizza,
+        controllers.routes.javascript.Pizzas.getPizzaList
+    )
+
+<script type="text/javascript">
+    app.controller('PizzaController', ['$scope', function($scope) {
+
+        $scope.clearPizza = function () {
+            $scope.name = null;
+            $scope.size = null;
+            $scope.price = null;
+            $scope.errors = {};
+        };
+        $scope.clearPizza();
+
+        $scope.refresh = function() {
+            jsRouter.controllers.Pizzas.getPizzaList()
+                    .ajax({
+                        cache: false,
+                        method:"GET",
+                        success: function(data) {
+                            $scope.$apply(function() {
+                                $scope.pizzaList = data.pizzaList;
+                            })
+                        }
+                    })
+        };
+        $scope.refresh();
+
+        $scope.addPizza = function() {
+            $scope.errors = {};
+            jsRouter.controllers.Pizzas.addPizza()
+                    .ajax({
+                        cache: false,
+                        method: "POST",
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            name: $scope.name,
+                            size: $scope.size,
+                            price: $scope.price
+
+                        }),
+                        success: function(data) {
+                            $scope.$apply(function() {
+                                $scope.clearPizza();
+                                $scope.refresh();
+                                $('#addPizzaModal').modal('hide');
+                            })
+                        },
+                        error: function(res) {
+                            $scope.$apply(function() {
+                                $scope.errors = res.responseJSON;
+                            })
+                        }
+                    })
+        };
+
+
+    }])
+
+</script>
+}
+
+@main("PizzaList", scripts) {
+<div ng-controller="PizzaController">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Pizza list</div>
+        <div class="panel-body">
+            <button type="button" style="margin-bottom: 20px" class="btn btn-success pull-right" ng-click="clearPizza()" data-toggle="modal" data-target="#addPizzaModal"> Add pizza</button>
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <th class="col1">Name</th>
+                    <th class="col2">Size</th>
+                    <th class="col3">Price</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="pizza in pizzaList">
+                        <td>{{pizza.name}}</td>
+                        <td>{{pizza.size}}</td>
+                        <td>{{pizza.price}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    @views.html.Pizza.pizzaModal()
+
+</div>
+
+}
