@@ -1,5 +1,7 @@
 package models;
 
+import play.db.ebean.Model;
+
 import javax.persistence.*;
 
 /**
@@ -8,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "deskCode")
-public class OrderToDesk {
+public class OrderToDesk extends Model {
 
     @ManyToOne
     public Desk desk;
