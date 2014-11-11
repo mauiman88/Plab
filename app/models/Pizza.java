@@ -1,6 +1,5 @@
 package models;
 
-import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.db.ebean.Model;
@@ -9,13 +8,9 @@ import utils.JSONUtils;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-/**
- * Created by ujvaricsaba on 10/23/14.
- */
+
 @Entity
 @Table( name = "pizza")
 public class Pizza extends Model {
@@ -30,6 +25,7 @@ public class Pizza extends Model {
 
     public Long size;
 
+    @Column(scale = 4, precision = 15)
     public BigDecimal price;
 
     @ManyToOne

@@ -1,55 +1,54 @@
 @()
 
 @scripts = {
-    @helper.javascriptRouter("jsRouter")(
-        controllers.routes.javascript.Pizzas.list,
-        controllers.routes.javascript.Pizzas.addPizza,
-        controllers.routes.javascript.Pizzas.getPizzaList
-    )
+@helper.javascriptRouter("jsRouter")(
+    controllers.routes.javascript.Drinks.list,
+    controllers.routes.javascript.Drinks.addDrink,
+    controllers.routes.javascript.Drinks.getDrinkList
+)
 
 <script type="text/javascript">
-    app.controller('PizzaController', ['$scope', function($scope) {
+    app.controller('DrinkController', ['$scope', function($scope) {
 
-        $scope.clearPizza = function () {
+        $scope.clearDrink = function () {
             $scope.name = null;
-            $scope.size = null;
+            $scope.description = null;
             $scope.price = null;
             $scope.errors = {};
         };
-        $scope.clearPizza();
+        $scope.clearDrink();
 
         $scope.refresh = function() {
-            jsRouter.controllers.Pizzas.getPizzaList()
+            jsRouter.controllers.Drinks.getDrinkList()
                     .ajax({
                         cache: false,
                         method:"GET",
                         success: function(data) {
                             $scope.$apply(function() {
-                                $scope.pizzaList = data.pizzaList;
+                                $scope.drinkList = data.drinkList;
                             })
                         }
                     })
         };
         $scope.refresh();
 
-        $scope.addPizza = function() {
+        $scope.addDrink = function() {
             $scope.errors = {};
-            jsRouter.controllers.Pizzas.addPizza()
+            jsRouter.controllers.Drinks.addDrink()
                     .ajax({
                         cache: false,
                         method: "POST",
                         contentType: 'application/json',
                         data: JSON.stringify({
                             name: $scope.name,
-                            size: $scope.size,
+                            description: $scope.description,
                             price: $scope.price
-
                         }),
                         success: function(data) {
                             $scope.$apply(function() {
-                                $scope.clearPizza();
+                                $scope.clearDrink();
                                 $scope.refresh();
-                                $('#addPizzaModal').modal('hide');
+                                $('#addDrinkModal').modal('hide');
                             })
                         },
                         error: function(res) {
@@ -66,33 +65,33 @@
 </script>
 }
 
-@main("PizzaList", scripts) {
-<div ng-controller="PizzaController" style="margin-top: 20px">
+@main("DrinkList", scripts) {
+<div ng-controller="DrinkController" style="margin-top: 20px">
     <div class="panel panel-default">
         <!-- Default panel contents -->
-        <div class="panel-heading" style="text-align: center"><b>Pizza list</b></div>
+        <div class="panel-heading" style="text-align: center"><b>Drink list</b></div>
         <div class="panel-body">
-            <button type="button" style="margin-bottom: 20px" class="btn btn-success pull-right" ng-click="clearPizza()" data-toggle="modal" data-target="#addPizzaModal"><span class="glyphicon glyphicon-plus"></span> Add pizza</button>
+            <button type="button" style="margin-bottom: 20px" class="btn btn-success pull-right" ng-click="clearDrink()" data-toggle="modal" data-target="#addDrinkModal"><span class="glyphicon glyphicon-plus"></span> Add drink</button>
             <!-- Table -->
             <table class="table">
                 <thead>
-                    <th class="col1">Name</th>
-                    <th class="col2">Size</th>
-                    <th class="col3">Price</th>
+                <th class="col1">Name</th>
+                <th class="col2">Description</th>
+                <th class="col3">Price</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="pizza in pizzaList">
-                        <td>{{pizza.name}}</td>
-                        <td>{{pizza.size}}</td>
-                        <td>{{pizza.price}} Ft</td>
-                    </tr>
+                <tr ng-repeat="drink in drinkList">
+                    <td>{{drink.name}}</td>
+                    <td>{{drink.description}}</td>
+                    <td>{{drink.price}} Ft</td>
+                </tr>
                 </tbody>
             </table>
         </div>
 
     </div>
 
-    @views.html.Pizza.pizzaModal()
+    @views.html.Drink.drinkModal()
 
 </div>
 

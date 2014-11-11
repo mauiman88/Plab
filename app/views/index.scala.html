@@ -4,12 +4,12 @@
 @helper.javascriptRouter("jsRouter")(
 
     )
-        <script type="text/javascript">
-            app.controllers("IndexController", ["$scope", function($scope) {
+    <script type="text/javascript">
+        app.controller("IndexController", ["$scope", function($scope) {
 
-            }])
-        </script>
-    }
+        }])
+    </script>
+}
 
 @main("Index", scripts) {
 <div ng-controller="IndexController">
@@ -36,9 +36,11 @@
 
             <div class="row-fluid">
                 <div class="col-xs-12 main-box-style box3">
-                    <div class="centered">
-                        <h2>Drinks<br /><small>Some expression</small></h2>
-                    </div>
+                    <a href="@routes.Drinks.list()">
+                        <div class="centered">
+                            <h2>Drinks<br /><small>Some expression</small></h2>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
