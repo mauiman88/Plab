@@ -14,27 +14,10 @@
 
                 <div class="modal-body">
 
-                    <div class="form-group {{ errors.name ? 'has-error': ''}}">
-                        <label for="drinkName" class="col-sm-4 control-label">Drink name</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" ng-model="name" id="drinkName" placeholder="new drink's name">
-                            <span class="form-control-feedback" ng-repeat="error in errors.name">{{error}}</span>
-                        </div>
-                    </div>
-                    <div class="form-group {{ errors.size ? 'has-error': ''}}">
-                        <label for="description" class="col-sm-4 control-label">Description</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" ng-model="description" id="description" placeholder="description">
-                            <span class="form-control-feedback" ng-repeat="error in errors.description">{{error}}</span>
-                        </div>
-                    </div>
-                    <div class="form-group {{ errors.price ? 'has-error': ''}}">
-                        <label for="price" class="col-sm-4 control-label">Price</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" ng-model="price" id="price" placeholder="Price">
-                            <span class="form-control-feedback" ng-repeat="error in errors.price">{{error}}</span>
-                        </div>
-                    </div>
+                    @helper.addNewTextItem("errors.name","drinkName","Drink","drink's name")
+                    @helper.addNewTextItem("errors.size","description","Description","expression about drink")
+                    @helper.addNewTextItem("errors.price","price","Price","drink's price")
+
                 </div>
 
                 <div class="modal-footer">

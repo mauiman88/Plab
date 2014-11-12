@@ -68,30 +68,8 @@
 
 @main("PizzaList", scripts) {
 <div ng-controller="PizzaController" style="margin-top: 20px">
-    <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading" style="text-align: center"><b>Pizza list</b></div>
-        <div class="panel-body">
-            <button type="button" style="margin-bottom: 20px" class="btn btn-success pull-right" ng-click="clearPizza()" data-toggle="modal" data-target="#addPizzaModal"><span class="glyphicon glyphicon-plus"></span> Add pizza</button>
-            <!-- Table -->
-            <table class="table">
-                <thead>
-                    <th class="col1">Name</th>
-                    <th class="col2">Size</th>
-                    <th class="col3">Price</th>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="pizza in pizzaList">
-                        <td>{{pizza.name}}</td>
-                        <td>{{pizza.size}}</td>
-                        <td>{{pizza.price}} Ft</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
 
-    </div>
-
+    @helper.productsListModal("Pizza", "clearPizza()", "#addPizzaModal", "Size", "{{pizza.name}}", "{{pizza.size}} cm", "{{pizza.price}}","pizza in pizzaList")
     @views.html.Pizza.pizzaModal()
 
 </div>

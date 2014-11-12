@@ -1,0 +1,8 @@
+@(errorsVariable: String, variableId: String, nameOfItem: String, placeHolder: String)
+<div class="form-group {{ @errorsVariable ? 'has-error': ''}}">
+    <label for="@variableId" class="col-sm-4 control-label">@nameOfItem</label>
+    <div class="col-sm-8">
+        <input type="text" class="form-control" ng-model="@variableId" id="@variableId" placeholder="@placeHolder">
+        <span class="form-control-feedback" ng-repeat="error in @errorsVariable">{{error}}</span>
+    </div>
+</div>
