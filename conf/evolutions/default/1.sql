@@ -49,6 +49,7 @@ create table pizza (
   id                        bigint not null,
   name                      varchar(255),
   size                      bigint,
+  visible                   boolean,
   price                     decimal(15,4),
   order_id                  bigint,
   constraint pk_pizza primary key (id))

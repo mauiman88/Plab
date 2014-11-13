@@ -25,6 +25,8 @@ public class Pizza extends Model {
 
     public Long size;
 
+    public boolean visible;
+
     @Column(scale = 4, precision = 15)
     public BigDecimal price;
 
@@ -45,8 +47,8 @@ public class Pizza extends Model {
         ObjectNode json = Json.newObject();
         json.put("name", name)
             .put("size", size)
+            .put("visible",visible)
             .put("price", price);
-
         return json;
     }
 

@@ -12,10 +12,6 @@ import java.math.BigDecimal;
 
 import static play.data.Form.form;
 
-/**
- * Created by ujvaricsaba on 11/7/14.
- */
-
 @Transactional
 public class Pizzas extends Controller{
 
@@ -55,6 +51,7 @@ public class Pizzas extends Controller{
         pizza.name = form.name;
         pizza.size = form.size;
         pizza.price = form.price;
+        pizza.visible = true;
 
         pizza.save();
 
