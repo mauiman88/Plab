@@ -1,4 +1,4 @@
-@(message: String)
+@()
 
 @scripts = {
 @helper.javascriptRouter("jsRouter")(
@@ -11,7 +11,7 @@
     </script>
 }
 
-@main("Index", scripts) {
+@main_admin("Admin Page", scripts) {
 <div ng-controller="IndexController">
     <div class="row" id="index-boxes">
 

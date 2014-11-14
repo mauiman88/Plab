@@ -7,9 +7,9 @@ create table desk (
   id                        bigint not null,
   created                   timestamp,
   desk_number               bigint not null,
-  order_state               varchar(3),
-  order_id                  bigint,
-  constraint ck_desk_order_state check (order_state in ('NEW')),
+  desk_code                 bigint not null,
+  desk_state                varchar(10),
+  constraint ck_desk_desk_state check (desk_state in ('NEW','BOOKED','BEING_USED')),
   constraint pk_desk primary key (id))
 ;
 
@@ -39,7 +39,6 @@ create table orders (
 ;
 
 create table deskCode (
-  desk_id                   bigint,
   order_id                  bigint,
   code                      bigint,
   constraint uq_deskCode_code unique (code))
@@ -76,6 +75,11 @@ create table users (
 ;
 
 
+create table desk_deskCode (
+  desk_id                        bigint not null,
+  constraint pk_desk_deskCode primary key (desk_id))
+;
+
 create table pizza_toppings (
   pizza_id                       bigint not null,
   toppings_id                    bigint not null,
@@ -95,22 +99,22 @@ create sequence toppings_seq;
 
 create sequence users_seq;
 
-alter table desk add constraint fk_desk_order_1 foreign key (order_id) references orders (id);
-create index ix_desk_order_1 on desk (order_id);
-alter table drinks add constraint fk_drinks_order_2 foreign key (order_id) references orders (id);
-create index ix_drinks_order_2 on drinks (order_id);
-alter table invoice add constraint fk_invoice_desk_3 foreign key (desk_id) references desk (id);
-create index ix_invoice_desk_3 on invoice (desk_id);
-alter table invoice add constraint fk_invoice_order_4 foreign key (order_id) references orders (id);
-create index ix_invoice_order_4 on invoice (order_id);
-alter table deskCode add constraint fk_deskCode_desk_5 foreign key (desk_id) references desk (id);
-create index ix_deskCode_desk_5 on deskCode (desk_id);
-alter table deskCode add constraint fk_deskCode_order_6 foreign key (order_id) references orders (id);
-create index ix_deskCode_order_6 on deskCode (order_id);
-alter table pizza add constraint fk_pizza_order_7 foreign key (order_id) references orders (id);
-create index ix_pizza_order_7 on pizza (order_id);
+alter table drinks add constraint fk_drinks_order_1 foreign key (order_id) references orders (id);
+create index ix_drinks_order_1 on drinks (order_id);
+alter table invoice add constraint fk_invoice_desk_2 foreign key (desk_id) references desk (id);
+create index ix_invoice_desk_2 on invoice (desk_id);
+alter table invoice add constraint fk_invoice_order_3 foreign key (order_id) references orders (id);
+create index ix_invoice_order_3 on invoice (order_id);
+alter table deskCode add constraint fk_deskCode_order_4 foreign key (order_id) references orders (id);
+create index ix_deskCode_order_4 on deskCode (order_id);
+alter table pizza add constraint fk_pizza_order_5 foreign key (order_id) references orders (id);
+create index ix_pizza_order_5 on pizza (order_id);
 
 
+
+alter table desk_deskCode add constraint fk_desk_deskCode_desk_01 foreign key (desk_id) references desk (id);
+
+alter table desk_deskCode add constraint fk_desk_deskCode_deskCode_02 foreign key () references deskCode ();
 
 alter table pizza_toppings add constraint fk_pizza_toppings_pizza_01 foreign key (pizza_id) references pizza (id);
 
@@ -119,6 +123,8 @@ alter table pizza_toppings add constraint fk_pizza_toppings_toppings_02 foreign 
 # --- !Downs
 
 drop table if exists desk cascade;
+
+drop table if exists desk_deskCode cascade;
 
 drop table if exists drinks cascade;
 

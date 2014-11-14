@@ -1,0 +1,51 @@
+@(pizzaList: List[Pizza], drinkList: List[Drink])
+
+@scripts = {
+}
+
+@main_desktop_client("Welcome", scripts) {
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading" style="text-align: center"><b>Drink list</b></div>
+        <div class="panel-body">
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                <th class="col1">Name</th>
+                <th class="col2">Description</th>
+                <th class="col3">Price</th>
+                </thead>
+                <tbody>
+                @for(drink <- drinkList){
+                <tr>
+                    <td>@drink.name</td>
+                    <td>@drink.description</td>
+                    <td><span>@("%1.0f".format(drink.price))</span> Ft</td>
+                </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel-heading" style="text-align: center"><b>Pizza list</b></div>
+        <div class="panel-body">
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                <th class="col1">Name</th>
+                <th class="col2">Size</th>
+                <th class="col3">Price</th>
+                </thead>
+                <tbody>
+                @for(pizza <- pizzaList){
+                <tr>
+                    <td>@pizza.name</td>
+                    <td>@pizza.size cm</td>
+                    <td><span>@("%1.0f".format(pizza.price))</span> Ft</td>
+                </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
