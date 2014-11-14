@@ -46,7 +46,7 @@ public class Desk extends Model {
     @Enumerated(EnumType.STRING)
     public DeskState deskState = DeskState.NEW;
 
-    @ManyToMany()
+    @ManyToMany
     public List<OrderToDesk> orderToDesks = Lists.newArrayList();
 
     /* EBEAN */
