@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.google.common.collect.Lists;
 import play.db.ebean.Model;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class Desk extends Model {
 
     public static enum DeskState{
-        NEW("New");
+        NEW("New"), BOOKED("Booked"), BEING_USED("Being used");
 
         private final String name;
 
@@ -38,14 +39,28 @@ public class Desk extends Model {
     @Column(nullable = false)
     public Long deskNumber;
 
+    @Column(nullable = false)
+    public Long deskCode;
+
 
     @Enumerated(EnumType.STRING)
-    public DeskState orderState;
+    public DeskState deskState = DeskState.NEW;
 
-    @OneToOne
-    public Order order;
-
-
-    @OneToMany(mappedBy = "desk")
+    @ManyToMany
     public List<OrderToDesk> orderToDesks = Lists.newArrayList();
+
+    /* EBEAN */
+    public static Finder<Long, Desk> find = new Finder(Long.class, Desk.class);
+    public static List<Desk> all(){ return find.all(); }
+
+    public static Desk findDeskByCode(Long deskCode) {
+        return Ebean.find(Desk.class).where().eq("deskCode", deskCode).findUnique();
+    }
+
+    public static Desk authenticateDesk(Long deskNumber, Long deskCode) {
+        return Ebean.find(Desk.class).where()
+                .eq("deskNumber", deskNumber)
+                .eq("deskCode", deskCode)
+                .findUnique();
+    }
 }

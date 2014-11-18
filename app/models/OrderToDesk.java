@@ -13,9 +13,6 @@ import javax.persistence.*;
 public class OrderToDesk extends Model {
 
     @ManyToOne
-    public Desk desk;
-
-    @ManyToOne
     public Order order;
 
     @Column(unique = true)

@@ -65,10 +65,10 @@
 </script>
 }
 
-@main("DrinkList", scripts) {
+@main_admin("DrinkList", scripts) {
 <div ng-controller="DrinkController" style="margin-top: 20px">
 
-    @helper.productsListModal("Drink", "clearDrink()", "#addDrinkModal", "Description", "{{drink.name}}", "{{drink.description}}", "{{drink.price}}","drink in drinkList")
+    @helper.productsListTable("Drink", "clearDrink()", "#addDrinkModal", "Description", "{{drink.name}}", "{{drink.description}}", "{{drink.price}}","drink in drinkList")
     @views.html.Drink.drinkModal()
 
 </div>

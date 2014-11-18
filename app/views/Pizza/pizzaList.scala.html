@@ -66,10 +66,10 @@
 </script>
 }
 
-@main("PizzaList", scripts) {
+@main_admin("PizzaList", scripts) {
 <div ng-controller="PizzaController" style="margin-top: 20px">
 
-    @helper.productsListModal("Pizza", "clearPizza()", "#addPizzaModal", "Size", "{{pizza.name}}", "{{pizza.size}} cm", "{{pizza.price}}","pizza in pizzaList")
+    @helper.productsListTable("Pizza", "clearPizza()", "#addPizzaModal", "Size", "{{pizza.name}}", "{{pizza.size}} cm", "{{pizza.price}}","pizza in pizzaList")
     @views.html.Pizza.pizzaModal()
 
 </div>

@@ -1,0 +1,24 @@
+@(title: String, scripts:Html = Html(""))(content: Html)
+
+@admin_scripts = {
+    @scripts
+}
+
+@main(title, admin_scripts) {
+<div class="container">
+    <div class="navbar-wrapper">
+        <div id="menu-bar">
+            <ul class="nav navbar-default nav-justified">
+                <li><a href="@routes.Products.productList()">User page</a></li>
+                <li><a href="@routes.Application.index()">Admin page</a></li>
+                <li><a href="">Profile</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @content
+        </div>
+    </div>
+</div>
+}

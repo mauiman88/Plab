@@ -1,6 +1,8 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
 import com.google.common.collect.Lists;
+import models.Desk;
 import models.User;
 import org.apache.commons.lang3.StringUtils;
 import play.data.Form;
@@ -17,11 +19,21 @@ import static play.data.Form.form;
 public class Application extends Controller {
 
     public static Result index() {
-        return ok(views.html.index.render("HELLO"));
+        return ok(views.html.index_admin.render());
     }
 
     public static Result login() {
         return ok(views.html.login.render());
+    }
+
+    public static Desk getLocalDesk() {
+        String deskNumber = session().get(Products.SESSION_DESK_NUMBER);
+
+        if(!StringUtils.isEmpty(deskNumber)) {
+            return Ebean.find(Desk.class).where().eq("deskNumber", Long.parseLong(deskNumber)).findUnique();
+        }
+
+        return null;
     }
 
     public static class LoginForm {
@@ -49,7 +61,7 @@ public class Application extends Controller {
             if(!StringUtils.isEmpty(password) && !StringUtils.isEmpty(password)) {
                 user = User.authenticate(email, password);
                 if (user == null) {
-                    errors.add(new ValidationError("auth", "Error during authentication."));
+                    errors.add(new ValidationError("aut h", "Error during authentication."));
                     errors.add(new ValidationError("auth", "Wrong email or password."));
                 }
             }
