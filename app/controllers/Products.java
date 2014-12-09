@@ -53,7 +53,7 @@ public class Products extends Controller {
 
     public static Result leaveDesk() {
         if(!StringUtils.isEmpty(session().get(SESSION_DESK_NUMBER))) {
-            Desk desk = (Desk) Ebean.find(Desk.class).where().eq("id", Long.parseLong(session().get(SESSION_DESK_NUMBER)));
+            Desk desk = Ebean.find(Desk.class).where().eq("id", Long.parseLong(session().get(SESSION_DESK_NUMBER))).findUnique();
             session().remove(SESSION_DESK_NUMBER);
         }
         return productList();
