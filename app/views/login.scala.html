@@ -41,17 +41,27 @@ controllers.routes.javascript.Application.authenticate
 
 @main("Login", scripts) {
 <div ng-controller="LoginController">
-    <form id="loginForm" class="form" role="form">
-        <div class="form-group">
+    <form id="loginForm" class="form" role="form" ng-submit="authenticate()">
+        <div class="form-group {{ errors.email ? 'has-error' : '' }}">
             <label for="inputEmail" class="control-label">Email</label>
-            <input type="email" ng-model="email" class="form-control" id="inputEmail" placeholder="Email">
+            <div class="form-group">
+                <input type="email" ng-model="email" class="form-control" id="inputEmail" placeholder="Email">
+                <span class="form-control-feedback" ng-repeat="error in errors.email">{{error}}</span>
+            </div>
         </div>
-        <div class="form-group">
+
+        <div class="form-group  {{ errors.password ? 'has-error' : '' }}">
             <label for="inputPassword" class=" control-label">Password</label>
-            <input type="password" ng-model="password" class="form-control" id="inputPassword" placeholder="Password">
+            <div class="form-group">
+                <input type="password" ng-model="password" class="form-control" id="inputPassword" placeholder="Password">
+                <span class="form-control-feedback" ng-repeat="error in errors.password">{{error}}</span>
+            </div>
+        </div>
+        <div class="form-group  {{ errors.auth? 'has-error' : '' }}">
+            <span class="form-control-feedback" ng-repeat="error in errors.auth">{{error}}<br /></span>
         </div>
         <div class="form-group">
-            <button type="btn btn-success" ng-click="authenticate()" class="btn btn-default">Sign in</button>
+            <button type="btn btn-success" class="btn btn-default">Sign in</button>
         </div>
     </form>
 </div>

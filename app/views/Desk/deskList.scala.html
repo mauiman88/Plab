@@ -1,0 +1,29 @@
+@()
+@scripts =  {
+@helper.javascriptRouter("jsRouter")(
+    controllers.routes.javascript.Desks.getDeskList
+)
+
+    <script type="text/javascript">
+    app.controller('DeskController', function($scope) {
+        $scope.refresh = function() {
+            jsRouter.controllers.Desks.getDeskList()
+            .ajax({
+                cache:false,
+                method: 'GET',
+                success: function(data) {
+                    $scope.$apply(function() {
+                        $scope.deskList = data.list;
+                    })
+                }
+            })
+        }
+        $scope.refresh();
+    });
+    </script>
+}
+@main_admin("Desk list", scripts) {
+    <div ng-controller="DeskController" style="margin-top : 20px">
+    @helper.productsListTable("Desk", "", "", "Desk Number", "Desk Code", "Desk State", "{{desk.deskNumber}}", "{{desk.deskCode}}", "{{desk.deskState}}","desk in deskList")
+    </div>
+}

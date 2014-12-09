@@ -2,10 +2,15 @@
 
 @scripts = {
     @helper.javascriptRouter("jsRouter")(
-        controllers.routes.javascript.Products.authenticateDesk
+        controllers.routes.javascript.Products.authenticateDesk,
+        controllers.routes.javascript.Products.productList,
+        controllers.routes.javascript.Products.leaveDesk,
+        controllers.routes.javascript.Orders.addItemToCart,
+        controllers.routes.javascript.Orders.removeItemFromCart,
+        controllers.routes.javascript.Orders.getCart
     )
     <script type="text/javascript">
-        app.controller('DesktopController', function($scope) {
+        app.controller('DesktopController', function($scope, $rootScope) {
 
             $scope.deskNumber = null;
             $scope.deskCode = "";
@@ -23,74 +28,181 @@
                     }),
                     success: function(data){
                         $scope.$apply(function() {
-
+                            window.location = jsRouter.controllers.Products.productList( ).url;
                         })
                     },
                     error: function(data) {
                         $scope.$apply(function() {
                             $scope.errors=data.responseJSON;
-                            console.log($scope.errors);
                         })
                     }
                 })
             }
+
+            $scope.leaveDesk = function() {
+                jsRouter.controllers.Products.leaveDesk()
+                .ajax({
+                    cache: false,
+                    method: 'GET',
+                    success: function(data){
+                        $scope.$apply(function() {
+                            window.location = jsRouter.controllers.Products.productList( ).url;
+                        })
+                    }
+                })
+            };
+
+            $rootScope.addToCart = function(pizzaId, drinkId) {
+                $scope.errors={};
+                jsRouter.controllers.Orders.addItemToCart()
+                .ajax({
+                    cache: false,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        pizzaId: pizzaId,
+                        drinkId: drinkId,
+                        quantity: 1
+                    }),
+                    success: function(data){
+                        $scope.$apply(function() {
+                            $rootScope.getCart();
+                        })
+                    },
+                    error: function(data) {
+                        $scope.$apply(function() {
+                            $scope.errors=data.responseJSON;
+                        })
+                    }
+                })
+            }
+
+            $rootScope.getCart = function () {
+                jsRouter.controllers.Orders.getCart()
+                .ajax({
+                    cache: false,
+                    method: 'GET',
+                    success: function(data){
+                        $scope.$apply(function() {
+                            $scope.cartItemList = data.items;
+                        })
+                    }
+                })
+            }
+            $rootScope.getCart();
+
+            $rootScope.removeFromCart = function(pizzaId, drinkId) {
+                $scope.errors={};
+                jsRouter.controllers.Orders.removeItemFromCart()
+                .ajax({
+                    cache: false,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        pizzaId: pizzaId,
+                        drinkId: drinkId,
+                    }),
+                    success: function(data){
+                        $scope.$apply(function() {
+                            $rootScope.getCart();
+                        })
+                    },
+                    error: function(data) {
+                        $scope.$apply(function() {
+                            $scope.errors=data.responseJSON;
+                        })
+                    }
+                })
+            }
+
         });
     </script>
 }
 @main(title, scripts) {
 <div ng-controller="DesktopController">
-    @if(controllers.Application.getLocalDesk() == null) {
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span></a>
-                <div class="dropdown navbar-brand">
-                    <a id="orders" data-toggle="dropdown" aria-expanded="true">
-                        Orders
-                    </a>
-                    <div class="dropdown-menu" role="menu" aria-labelledby="orders">
-                        <form style="margin:20px;" role="form" ng-submit="authenticateDesk()">
-                            <div class="form-group">
-                                <input type="text" ng-model="deskNumber" placeholder="Desk number" class="form-control">
-                            </div>
-                            <div class="form-group ng-scope {{ errors.deskCode ? 'has-error' : '' }}">
-                                <label class=" control-label">Desk Code</label>
-                                <div class="">
-                                    <input type="password" ng-model="deskCode" placeholder="Desk code" class="form-control">
-                                    <span class="form-control-feedback" ng-repeat="error in errors.deskCode">{{error}}</span>
+            @if(controllers.Application.getLocalDesk() == null) {
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span></a>
+                    <div class="dropdown navbar-brand">
+                        @if(controllers.Application.getLocalUser() == null) {
+                            <a class="btn btn-primary" id="orders" style="margin-top : -5px" data-toggle="dropdown" aria-expanded="true">
+                                Desk login
+                            </a>
+                        }
+                        <div class="dropdown-menu" role="menu" aria-labelledby="orders">
+                            <form style="margin:20px;" role="form" ng-submit="authenticateDesk()">
+                                <div class="form-group">
+                                    <label for="deskNumber" style="color:#333">Desk Number</label>
+                                    <div class="form-group">
+                                        <input type="text" id="deskNumber" ng-model="deskNumber" placeholder="Desk number" class="form-control">
+                                    </div>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn btn-success pull-right">Sign in</button>
-                        </form>
+                                <div class="form-group {{ errors.deskCode ? 'has-error' : '' }}">
+                                    <label for="deskCode" style="color: #333">Desk Code</label>
+                                    <div class="form-group">
+                                        <input type="password" id="deskCode" ng-model="deskCode" placeholder="Desk code" class="form-control">
+                                        <span class="form-control-feedback" ng-repeat="error in errors.deskCode">{{error}}</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success pull-right">Sign in</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @if(controllers.Application.getLocalUser() != null && controllers.Application.getLocalUser().hasAdminRights()) {
+                    <div id="navbar">
+                        <a href="@routes.Application.index()" class="btn btn-warning pull-right" style="margin-top : 10px">
+                            Go to Admin Page
+                        </a>
+                    </div>
+                } else {
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <a href="@routes.Application.login()" class="btn btn-warning pull-right" style="margin-top :10px">
+                            Login as Admin
+                        </a>
+                    </div>
+                }
+            } else {
+                <div id="navbar" class="navbar-collapse collapse">
+                    <a ng-click="leaveDesk()" class="btn btn-warning pull-right" style="margin-top :10px">
+                        Leave Desk
+                    </a>
+                </div>
+            }
+        </div>
+
+    </nav>
+
+    <div class="row" style="margin-left: 20px;">
+        <div class="col-md-9" style="margin-top: 100px">
+            @content
+        </div>
+        <div class="col-md-2" style="margin-top:100px;">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Cart
+                </div>
+                <div class="panel-body">
+                    <div ng-repeat="item in cartItemList">
+                        <label ng-if="item.pizza != null">Pizza Name</label>
+                        <div ng-if="item.pizza != null">{{item.pizza.name}}</div>
+                        <label ng-if="item.drink != null">Drink Name</label>
+                        <div ng-if="item.drink != null">{{item.drink.name}}</div>
+                        <label>Quantity</label>
+                        <div >{{item.quantity}}</div>
+                        <button ng-if="item.pizza != null" class="btn btn-danger" ng-click="removeFromCart(item.pizza.id, '')">Delete</button>
+                        <button ng-if="item.drink != null" class="btn btn-danger" ng-click="removeFromCart('', item.drink.id)">Delete</button>
                     </div>
                 </div>
             </div>
-
-            <div id="navbar" class="navbar-collapse collapse">
-                <form class="navbar-form navbar-right" role="form">
-                    <div class="form-group">
-                        <input type="text" placeholder="Email" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Password" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-success">Sign in</button>
-                </form>
-            </div><!--/.navbar-collapse -->
-        </div>
-    </nav>
-    } else {
-
-    }
-    <div class="row">
-        <div class="col-md-9" style="margin-top: 100px">
-            @content
         </div>
     </div>
 

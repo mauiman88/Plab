@@ -38,7 +38,8 @@ public class Drink extends Model {
 
     public ObjectNode toJson() {
         ObjectNode json = Json.newObject();
-        json.put("name", name)
+        json.put("id", id)
+            .put("name", name)
             .put("description", description)
             .put("price", price);
         return json;

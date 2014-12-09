@@ -1,21 +1,24 @@
-@(products: String, angularFunction: String, dataTarget: String, headII: String, attributeI: String, attributeII: String, attributeIII: String, angularIteration: String)
+@(products: String, angularFunction: String, dataTarget: String,headI: String, headII: String, headIII: String, attributeI: String, attributeII: String, attributeIII: String, angularIteration: String)
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading" style="text-align: center"><b>@products list</b></div>
     <div class="panel-body">
-        <button type="button" style="margin-bottom: 20px" class="btn btn-success pull-right" ng-click="@angularFunction" data-toggle="modal" data-target="@dataTarget"><span class="glyphicon glyphicon-plus"></span> Add @products</button>
+        @if(angularFunction != "") {
+            <button type="button" style="margin-bottom : 20 px" class="btn btn-success pull-right" ng-click="@angularFunction" data-toggle="modal" data-target="@dataTarget"><span class="glyphicon glyphicon-plus"></span>
+                Add @products</button>
+        }
         <!-- Table -->
         <table class="table">
             <thead>
-            <th class="col1">Name</th>
+            <th class="col1">@headI</th>
             <th class="col2">@headII</th>
-            <th class="col3">Price</th>
+            <th class="col3">@headIII</th>
             </thead>
             <tbody>
             <tr ng-repeat="@angularIteration">
                 <td>@attributeI</td>
                 <td>@attributeII</td>
-                <td>@attributeIII Ft</td>
+                <td>@attributeIII</td>
             </tr>
             </tbody>
         </table>
