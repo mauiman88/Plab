@@ -46,6 +46,7 @@ public class Pizza extends Model {
     public ObjectNode toJson() {
         ObjectNode json = Json.newObject();
         json.put("name", name)
+            .put("id", id)
             .put("size", size)
             .put("visible",visible)
             .put("price", price);

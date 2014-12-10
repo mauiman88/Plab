@@ -2,17 +2,17 @@
 
 @scripts = {
         @helper.javascriptRouter("jsRouter")(
-        controllers.routes.javascript.OrderListController.list
+        controllers.routes.javascript.Orders.list
 )
 <script type="text/javascript">
-        app.controller('OrderListController', ['$scope', function($scope) {
+        app.controller('OrderListController',  function($scope) {
 
-        }])
+        })
 
     </script>
 }
 
-@main_admin("OrderList", scripts) {
+@main_admin("Orderist", scripts) {
 
 <div ng-controller="OrderListController">
     <div class="row" id="index-boxes">

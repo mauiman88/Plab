@@ -1,5 +1,6 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
 import models.Desk;
 import models.Drink;
 import models.Pizza;
@@ -48,5 +49,13 @@ public class Products extends Controller {
         session().put(SESSION_DESK_NUMBER, deskNumberAsString);
 
         return ok();
+    }
+
+    public static Result leaveDesk() {
+        if(!StringUtils.isEmpty(session().get(SESSION_DESK_NUMBER))) {
+            Desk desk = Ebean.find(Desk.class).where().eq("id", Long.parseLong(session().get(SESSION_DESK_NUMBER))).findUnique();
+            session().remove(SESSION_DESK_NUMBER);
+        }
+        return productList();
     }
 }

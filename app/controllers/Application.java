@@ -18,6 +18,8 @@ import static play.data.Form.form;
 
 public class Application extends Controller {
 
+    public static final String SESSION_USER_ID = "user_id";
+
     public static Result index() {
         return ok(views.html.index_admin.render());
     }
@@ -31,6 +33,15 @@ public class Application extends Controller {
 
         if(!StringUtils.isEmpty(deskNumber)) {
             return Ebean.find(Desk.class).where().eq("deskNumber", Long.parseLong(deskNumber)).findUnique();
+        }
+
+        return null;
+    }
+    public static User getLocalUser() {
+        String userId = session().get(SESSION_USER_ID);
+
+        if(!StringUtils.isEmpty(userId)) {
+            return Ebean.find(User.class).where().eq("id", Long.parseLong(userId)).findUnique();
         }
 
         return null;
@@ -61,7 +72,7 @@ public class Application extends Controller {
             if(!StringUtils.isEmpty(password) && !StringUtils.isEmpty(password)) {
                 user = User.authenticate(email, password);
                 if (user == null) {
-                    errors.add(new ValidationError("aut h", "Error during authentication."));
+                    errors.add(new ValidationError("auth", "Error during authentication."));
                     errors.add(new ValidationError("auth", "Wrong email or password."));
                 }
             }
@@ -87,6 +98,7 @@ public class Application extends Controller {
         if(loginForm.hasErrors()) {
             return badRequest(loginForm.errorsAsJson());
         }
+        session().put(SESSION_USER_ID, loginForm.get().user.id+"");
         return ok();
     }
 }

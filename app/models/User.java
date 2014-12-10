@@ -58,15 +58,11 @@ public class User extends Model {
     public UserRole role;
 
 
+    public boolean hasAdminRights() {
+        return UserRole.ADMIN.equals(role);
+    }
+
     public static User authenticate(String email, String password) {
-        if(Ebean.find(User.class).where().eq("email","test@example.com").findUnique() == null) {
-            User newUser = new User();
-            newUser.email = "test@example.com";
-            newUser.lastName = "plab";
-            newUser.name = "atom";
-            newUser.password = hashPassword("test");
-            newUser.save();
-        }
         User user = Ebean.find(User.class).where().eq("email", email).findUnique();
         if( user != null && hashPassword(password).equals(user.password)) {
             return user;
