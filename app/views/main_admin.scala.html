@@ -1,17 +1,33 @@
 @(title: String, scripts:Html = Html(""))(content: Html)
 
 @admin_scripts = {
-    @scripts
+    @helper.javascriptRouter("jsRouter")(
+    controllers.routes.javascript.Application.logout
+)
+<script type="text/javascript">
+    app.controller('AdminMainController', ['$scope', function($scope) {
+         $('.dropdown-toggle').dropdown()
+    }])
+</script>
+
 }
 
 @main(title, admin_scripts) {
-<div class="container">
+<div ng-controller="AdminMainController" class="container">
     <div class="navbar-wrapper">
         <div id="menu-bar">
             <ul class="nav navbar-default nav-justified">
                 <li><a href="@routes.Products.productList()">User page</a></li>
                 <li><a href="@routes.Application.index()">Admin page</a></li>
-                <li><a href="">Profile</a></li>
+                <li>
+                    <a data-target="#" href="" data-toggle="dropdown" aria-haspopup="true" role="button">
+                        Profile
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <a href="@routes.Application.logout()">Logout</a>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
