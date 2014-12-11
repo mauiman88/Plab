@@ -74,7 +74,7 @@ public class Application extends Controller {
                 errors.add(new ValidationError("password", "error.required"));
             }
 
-            if(!StringUtils.isEmpty(password) && !StringUtils.isEmpty(password)) {
+            if(!StringUtils.isEmpty(email) && !StringUtils.isEmpty(password)) {
                 user = User.authenticate(email, password);
                 if (user == null) {
                     errors.add(new ValidationError("auth", "Error during authentication."));
