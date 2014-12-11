@@ -19,7 +19,7 @@ public class Topping extends Model {
 
     public String name;
 
-    @Column(scale = 2, precision = 2)
+    @Column(scale = 4, precision = 15)
     public BigDecimal price;
 
 }

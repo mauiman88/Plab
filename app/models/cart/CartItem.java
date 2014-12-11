@@ -5,7 +5,7 @@ import models.Drink;
 import models.Pizza;
 import play.db.ebean.Model;
 import play.libs.Json;
-
+//jóskagyerekmostpofázzál
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;

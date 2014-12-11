@@ -44,7 +44,7 @@ public class Orders extends Controller {
 
         List<CartItem> items = Ebean.find(CartItem.class).where().eq("cart", cart).findList();
         for (CartItem item : items) {
-            if(item.pizza != null && item.pizza.id.equals(Long.parseLong(pizzaIdString)) ||
+            if(item.pizza != null && item.pizza.id.equals(Long.parseLong(pizzaIdString)) || //pina
                     item.drink != null && item.drink.id.equals(Long.parseLong(drinkIdString))
                     ) {
                 form.reject("cartError", "Already added");
