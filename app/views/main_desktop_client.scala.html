@@ -187,8 +187,7 @@
         </div>
         <div class="col-md-2" style="margin-top:100px;">
             <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Cart
+                <div class="panel-heading"><span class="glyphicon glyphicon-shopping-cart"></span> Cart
                 </div>
                 <div class="panel-body">
                     <div ng-repeat="item in cartItemList">
@@ -198,10 +197,12 @@
                         <div ng-if="item.drink != null">{{item.drink.name}}</div>
                         <label>Quantity</label>
                         <div >{{item.quantity}}</div>
-                        <button ng-if="item.pizza != null" class="btn btn-danger" ng-click="removeFromCart(item.pizza.id, '')">Delete</button>
-                        <button ng-if="item.drink != null" class="btn btn-danger" ng-click="removeFromCart('', item.drink.id)">Delete</button>
+                        <div ng-if="item.pizza != null">ár: {{item.quantity}}*{{item.pizza.price}} Ft</div>
+                        <div ng-if="item.drink != null">ár: {{item.quantity}}*{{item.drink.price}} Ft</div>
+                        <button ng-if="item.pizza != null" class="btn btn-danger" ng-click="removeFromCart(item.pizza.id, '')"><span class="glyphicon glyphicon-trash"></span>Delete</button>
+                        <button ng-if="item.drink != null" class="btn btn-danger" ng-click="removeFromCart('', item.drink.id)"><span class="glyphicon glyphicon-trash"></span>Delete</button>
                     </div>
-                </div>
+                    <button class="btn btn-success pull-right" ng-click=""><span class ="glyphicon glyphicon-ok"></span>Order</button>
             </div>
         </div>
     </div>
