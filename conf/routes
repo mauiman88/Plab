@@ -4,7 +4,7 @@
 
 # Home page
 GET         /admin                   controllers.Application.index()
-
+GET         /logout                  controllers.Application.logout()
 # Login
 GET         /login                   controllers.Application.login()
 POST        /authenticate            controllers.Application.authenticate()

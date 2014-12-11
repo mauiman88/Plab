@@ -44,11 +44,18 @@ public class Orders extends Controller {
 
         List<CartItem> items = Ebean.find(CartItem.class).where().eq("cart", cart).findList();
         for (CartItem item : items) {
-            if(item.pizza != null && item.pizza.id.equals(Long.parseLong(pizzaIdString)) || //pina
-                    item.drink != null && item.drink.id.equals(Long.parseLong(drinkIdString))
-                    ) {
-                form.reject("cartError", "Already added");
-                return badRequest(form.errorsAsJson());
+            if(!StringUtils.isEmpty(pizzaIdString) && item.pizza != null && item.pizza.id.equals(Long.parseLong(pizzaIdString))) {
+                item.quantity++;
+                item.save();
+                //form.reject("cartError", "Already added");
+                //return badRequest(form.errorsAsJson());
+                return ok(cart.toJson());
+            } else if(!StringUtils.isEmpty(drinkIdString) && item.drink != null && item.drink.id.equals(Long.parseLong(drinkIdString))) {
+                item.quantity++;
+                item.save();
+                //form.reject("cartError", "Already added");
+                //return badRequest(form.errorsAsJson());
+                return ok(cart.toJson());
             }
         }
 
