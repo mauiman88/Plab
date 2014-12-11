@@ -1,15 +1,16 @@
 @(title: String, scripts:Html = Html(""))(content: Html)
 
 @admin_scripts = {
-    @scripts
     @helper.javascriptRouter("jsRouter")(
-    controllers.routes.javascript.Application.logout
-)
-<script type="text/javascript">
-    app.controller('AdminMainController', ['$scope', function($scope) {
-         $('.dropdown-toggle').dropdown()
-    }])
-</script>
+        controllers.routes.javascript.Application.logout
+    )
+
+    @scripts
+    <script type="text/javascript">
+        app.controller('AdminMainController', ['$scope', function($scope) {
+             $('.dropdown-toggle').dropdown()
+        }])
+    </script>
 
 }
     <!-- jóskagyerekmostpofázzál-->
