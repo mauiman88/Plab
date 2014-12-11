@@ -28,6 +28,11 @@ public class Application extends Controller {
         return ok(views.html.login.render());
     }
 
+    public static Result logout(){
+        session().clear();
+        return redirect("/");
+    }
+
     public static Desk getLocalDesk() {
         String deskNumber = session().get(Products.SESSION_DESK_NUMBER);
 

@@ -71,7 +71,7 @@ create table pizza (
 create table toppings (
   id                        bigint not null,
   name                      varchar(255),
-  price                     decimal(15,4),
+  price                     decimal(2,2),
   constraint pk_toppings primary key (id))
 ;
 

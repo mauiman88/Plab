@@ -14,9 +14,12 @@ public class Topping extends Model {
     @Id
     public Long id;
 
+    @ManyToMany
+    public Pizza pizza;
+
     public String name;
 
-    @Column(scale = 4, precision = 15)
+    @Column(scale = 2, precision = 2)
     public BigDecimal price;
 
 }
