@@ -18,7 +18,7 @@ import static play.data.Form.form;
 
 public class Application extends Controller {
 
-    public static final String SESSION_USER_ID = "user_id";
+    public static final String SESSION_USER_ID = "user_id";   
 
     public static Result index() {
         return ok(views.html.index_admin.render());
