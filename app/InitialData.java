@@ -7,9 +7,7 @@ import models.User;
 import java.math.BigDecimal;
 import java.util.Random;
 
-/**
- * Created by ujvaricsaba on 11/14/14.
- */
+
 public class InitialData {
     private static final Long RANGE_OF_RANDOM = 9999L;
     public static void load() {

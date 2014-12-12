@@ -13,9 +13,7 @@ import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * Created by ujvaricsaba on 2014.09.24..
- */
+
 @Entity
 public class Cart extends Model {
     public static final String SESSION_CART_ID = "cart_id";

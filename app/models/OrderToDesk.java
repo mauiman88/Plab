@@ -4,9 +4,6 @@ import play.db.ebean.Model;
 
 import javax.persistence.*;
 
-/**
- * Created by ujvaricsaba on 10/16/14.
- */
 
 @Entity
 @Table(name = "deskCode")

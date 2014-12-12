@@ -3,9 +3,6 @@ package models;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by ujvaricsaba on 10/23/14.
- */
 
 @Entity
 @Table( name = "invoice")
