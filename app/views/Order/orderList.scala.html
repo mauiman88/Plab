@@ -1,51 +1,43 @@
 @()
 
 @scripts = {
-        @helper.javascriptRouter("jsRouter")(
-        controllers.routes.javascript.Orders.list
-)
-<script type="text/javascript">
-        app.controller('OrderListController',  function($scope) {
 
-        })
-
-    </script>
 }
 
-@main_admin("Orderist", scripts) {
-
-<div ng-controller="OrderListController">
-    <div class="panel-default" style="margin-top: 20px">
-        <div class="panel-heading" style="text-align : center"><span class="glyphicon glyphicon-stats"></span> <b>Daily order list</b></div>
+@main_admin("Orderlist", scripts) {
+        <div class="panel panel-default" style="margin-top: 20px">
+            <!-- Default panel contents -->
+        <div class="panel-heading" style="text-align : center"><span class="glyphicon glyphicon-glass"></span> <b>Order list</b></div>
         <div class="panel-body">
-            <!-- Table -->
+                <!-- Table -->
             <table class="table">
                 <thead>
-                <th class="col1">Desk number</th>
-                <th class="col2">Pizza</th>
-                <th class="col3">Drink</th>
-                <th class="col4">Price</th>
-                <th class="col5">Is Paid</th>
+                    <th class="col1">ID</th>
+                    <th class="col2">Status</th>
+                    <th class="col3">Pizzas</th>
+                    <th class="col4">Drinks</th>
                 </thead>
                 <tbody>
+                @for(order <- orderList) {
+                    <tr>
+                        <td class="col1">@order.id</td>
+                        <td class="col2">@order.orderStatus.getName</td>
 
-                </tbody>
-
-            </table>
-        </div>
-    </div>
-    <!--
+<div ng-controller="OrderListController">
     <div class="row" id="index-boxes">
 
-        <div class="col-md-6 list-group">
-            <a href="#" class="list-group-item active">TABLES</a>
-            <a href="#" class="list-group-item"><span class="badge">14</span>Open Tables</a>
-            <a href="#" class="list-group-item"><span class="badge">3</span>Available Tables</a>
-            <a href="#" class="list-group-item"><span class="badge">8</span>Paied Tables</a>
+                        <td class="col4">
+                        @for(drink <- order.drinkList) {
+                            @drink.name
+                        }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
         </div>
 
     </div>
-    -->
 </div>
 
 }

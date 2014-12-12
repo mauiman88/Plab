@@ -3,6 +3,7 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Drink;
+import models.Order;
 import models.Pizza;
 import models.cart.Cart;
 import models.cart.CartItem;
@@ -14,6 +15,7 @@ import play.mvc.Result;
 import play.db.ebean.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -21,10 +23,6 @@ import java.util.List;
  */
 @Transactional
 public class Orders extends Controller {
-
-    public static Result list() {
-        return ok(views.html.Order.orderList.render());
-    }
 
     public static Result addItemToCart() {
         String cartIdString = session().get(Cart.SESSION_CART_ID);
@@ -49,13 +47,13 @@ public class Orders extends Controller {
                 item.save();
                 //form.reject("cartError", "Already added");
                 //return badRequest(form.errorsAsJson());
-                return ok(cart.toJson());
+                return ok();
             } else if(!StringUtils.isEmpty(drinkIdString) && item.drink != null && item.drink.id.equals(Long.parseLong(drinkIdString))) {
                 item.quantity++;
                 item.save();
                 //form.reject("cartError", "Already added");
                 //return badRequest(form.errorsAsJson());
-                return ok(cart.toJson());
+                return ok();
             }
         }
 
@@ -107,5 +105,39 @@ public class Orders extends Controller {
             json = cart.toJson();
         }
         return ok(json);
+    }
+
+    public static Result addOrder() {
+        String cartIdString = session().get(Cart.SESSION_CART_ID);
+        Cart cart = Ebean.find(Cart.class).where().eq("id", Long.parseLong(cartIdString)).findUnique();
+        List<CartItem> items = Ebean.find(CartItem.class).where().eq("cart", cart).findList();
+
+        Order order = null;
+
+        DynamicForm form = DynamicForm.form().bindFromRequest(request());
+        String pizzaIdString = form.get("pizzaId");
+        String drinkIdString = form.get("drinkId");
+
+        for (CartItem item : items) {
+            if (!StringUtils.isEmpty(pizzaIdString) && item.pizza != null && item.pizza.id.equals(Long.parseLong(pizzaIdString))) {
+                order.pizzaList.add(item.pizza);
+            }
+            if (!StringUtils.isEmpty(drinkIdString) && item.drink != null && item.drink.id.equals(Long.parseLong(drinkIdString))) {
+                order.drinkList.add(item.drink);
+            }
+        }
+
+        return ok();
+
+    }
+
+    public static Result list() {
+        return ok(views.html.Order.orderList.render(Order.all()));
+    }
+
+    public static Result getOrderList() {
+        ObjectNode result = Json.newObject();
+        result.put("orderList", Order.queryOrderJson());
+        return ok(result);
     }
 }

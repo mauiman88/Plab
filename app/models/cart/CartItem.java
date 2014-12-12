@@ -8,7 +8,6 @@ import play.libs.Json;
 //jóskagyerekmostpofázzál
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 

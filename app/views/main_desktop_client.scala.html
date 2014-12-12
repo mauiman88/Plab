@@ -7,7 +7,8 @@
         controllers.routes.javascript.Products.leaveDesk,
         controllers.routes.javascript.Orders.addItemToCart,
         controllers.routes.javascript.Orders.removeItemFromCart,
-        controllers.routes.javascript.Orders.getCart
+        controllers.routes.javascript.Orders.getCart,
+        controllers.routes.javascript.Orders.addOrder
     )
     <script type="text/javascript">
         app.controller('DesktopController', function($scope, $rootScope) {
@@ -114,7 +115,23 @@
                     }
                 })
             }
+            $scope.addOrder = function() {
+                jsRouter.controllers.Orders.addOrder()
+                .ajax({
+                    cache:false,
+                    method: 'GET',
+                    success: function(data) {
+                        $scope.$apply(function(){
 
+                        })
+                    },
+                    error: function(res){
+                        $scope.$apply(function(){
+
+                        })
+                    }
+                })
+            }
         });
     </script>
 }
@@ -202,7 +219,7 @@
                         <button ng-if="item.pizza != null" class="btn btn-danger" ng-click="removeFromCart(item.pizza.id, '')"><span class="glyphicon glyphicon-trash"></span> Delete</button>
                         <button ng-if="item.drink != null" class="btn btn-danger" ng-click="removeFromCart('', item.drink.id)"><span class="glyphicon glyphicon-trash"></span> Delete</button>
                     </div>
-                    <button class="btn btn-success pull-right" ng-click=""><span class ="glyphicon glyphicon-ok"></span> Order</button>
+                    <button class="btn btn-success pull-right" ng-click="addOrder()"><span class ="glyphicon glyphicon-ok"></span> Order</button>
             </div>
         </div>
     </div>

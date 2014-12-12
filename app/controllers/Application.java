@@ -28,7 +28,7 @@ public class Application extends Controller {
         return ok(views.html.login.render());
     }
 
-    public static Result logout(){
+    public static Result logout() {
         session().clear();
         return redirect("/");
     }

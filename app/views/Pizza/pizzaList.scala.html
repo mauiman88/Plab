@@ -1,77 +1,77 @@
 @()
 
-@scripts = {
+    @scripts = {
     @helper.javascriptRouter("jsRouter")(
         controllers.routes.javascript.Pizzas.list,
         controllers.routes.javascript.Pizzas.addPizza,
         controllers.routes.javascript.Pizzas.getPizzaList
     )
 
-<script type="text/javascript">
-    app.controller('PizzaController', function($scope) {
+        <script type="text/javascript">
+        app.controller('PizzaController', function($scope) {
 
         $scope.clearPizza = function () {
-            $scope.name = null;
-            $scope.size = null;
-            $scope.price = null;
-            $scope.errors = {};
+        $scope.name = null;
+        $scope.size = null;
+        $scope.price = null;
+        $scope.errors = {};
         };
         $scope.clearPizza();
 
         $scope.refresh = function() {
-            jsRouter.controllers.Pizzas.getPizzaList()
-                    .ajax({
-                        cache: false,
-                        method:"GET",
-                        success: function(data) {
-                            $scope.$apply(function() {
-                                $scope.pizzaList = data.pizzaList;
-                            })
-                        }
-                    })
+        jsRouter.controllers.Pizzas.getPizzaList()
+        .ajax({
+        cache: false,
+        method:"GET",
+        success: function(data) {
+        $scope.$apply(function() {
+        $scope.pizzaList = data.pizzaList;
+        })
+        }
+        })
         };
         $scope.refresh();
 
         $scope.addPizza = function() {
-            $scope.errors = {};
-            jsRouter.controllers.Pizzas.addPizza()
-                    .ajax({
-                        cache: false,
-                        method: "POST",
-                        contentType: 'application/json',
-                        data: JSON.stringify({
-                            name: $scope.name,
-                            size: $scope.size,
-                            price: $scope.price
+        $scope.errors = {};
+        jsRouter.controllers.Pizzas.addPizza()
+        .ajax({
+        cache: false,
+        method: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify({
+        name: $scope.name,
+        size: $scope.size,
+        price: $scope.price
 
-                        }),
-                        success: function(data) {
-                            $scope.$apply(function() {
-                                $scope.clearPizza();
-                                $scope.refresh();
-                                $('#addPizzaModal').modal('hide');
-                            })
-                        },
-                        error: function(res) {
-                            $scope.$apply(function() {
-                                $scope.errors = res.responseJSON;
-                            })
-                        }
-                    })
+        }),
+        success: function(data) {
+        $scope.$apply(function() {
+        $scope.clearPizza();
+        $scope.refresh();
+        $('#addPizzaModal').modal('hide');
+        })
+        },
+        error: function(res) {
+        $scope.$apply(function() {
+        $scope.errors = res.responseJSON;
+        })
+        }
+        })
         };
 
 
-    })
+        })
 
-</script>
-}
+        </script>
+    }
 
 @main_admin("PizzaList", scripts) {
-<div ng-controller="PizzaController" style="margin-top: 20px">
+    <div ng-controller="PizzaController" style="margin-top: 20px">
 
-    @helper.productsListTable("Pizza", "clearPizza()", "#addPizzaModal", "Name", "Size", "Price", "{{pizza.name}}", "{{pizza.size}} cm", "{{pizza.price}} Ft","pizza in pizzaList")
-    @views.html.Pizza.pizzaModal()
+        @helper.productsListTable("Pizza", "clearPizza()", "#addPizzaModal", "Name", "Size", "Price", "{{pizza.name}}", "{{pizza.size}} cm", "{{pizza.price}} Ft","pizza in pizzaList")
+        @views.html.Pizza.pizzaModal()
 
-</div>
+    </div>
 
 }

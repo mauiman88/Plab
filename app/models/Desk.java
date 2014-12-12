@@ -11,9 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 
-/**
- * Created by ujvaricsaba on 10/16/14.
- */
 @Entity
 @Table(name = "desk")
 public class Desk extends Model {

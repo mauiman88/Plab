@@ -1,6 +1,10 @@
 package models;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.db.ebean.Model;
+import play.libs.Json;
+import utils.JSONUtils;
 
 import javax.persistence.*;
 import javax.persistence.Table;
@@ -44,4 +48,27 @@ public class Order extends Model {
     @OneToOne( mappedBy = "order", cascade = CascadeType.ALL)
     public Invoice invoice;
 
+    public static ArrayNode queryOrderJson() {
+        ArrayNode node = JSONUtils.newArrayNode();
+        List<Order> orderList = find.all();
+        for (Order order : orderList) {
+            node.add(order.toJson());
+        }
+
+        return node;
+    }
+
+    public ObjectNode toJson() {
+        ObjectNode json = Json.newObject();
+        json.put("id", id)
+                .put("orderStatus", orderStatus.getName());
+        return json;
+    }
+
+    /* EBEAN */
+    public static Finder<Long, Order> find = new Finder(Long.class, Order.class);
+
+    public static List<Order> all(){
+        return find.all();
+    }
 }
