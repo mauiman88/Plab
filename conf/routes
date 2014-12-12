@@ -17,6 +17,7 @@ GET         /orderList                 controllers.Orders.list()
 POST        /addItemToCart             controllers.Orders.addItemToCart()
 POST        /removeItemFromCart        controllers.Orders.removeItemFromCart()
 GET         /getCart                   controllers.Orders.getCart()
+GET         /clearCart                 controllers.Orders.clearCart()
 
 
 # Pizza

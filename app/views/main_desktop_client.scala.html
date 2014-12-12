@@ -8,7 +8,8 @@
         controllers.routes.javascript.Orders.addItemToCart,
         controllers.routes.javascript.Orders.removeItemFromCart,
         controllers.routes.javascript.Orders.getCart,
-        controllers.routes.javascript.Orders.addOrder
+        controllers.routes.javascript.Orders.addOrder,
+        controllers.routes.javascript.Orders.clearCart
     )
     <script type="text/javascript">
         app.controller('DesktopController', function($scope, $rootScope) {
@@ -121,8 +122,27 @@
                     cache:false,
                     method: 'GET',
                     success: function(data) {
-                        $scope.$apply(function(){
+                        $scope.$apply(function() {
+                            $scope.clearCart();
+                            $('#confirmMsg' ).modal('show');
+                        })
+                    }
+                });
+            };
 
+
+            $scope.clearCart = function() {
+                jsRouter.controllers.Orders.clearCart()
+                .ajax({
+                    cache: false,
+                    method: 'GET',
+                    success: function(data) {
+                        $scope.$apply(function(){
+                            $rootScope.getCart();
+                        })
+                    }
+                })
+            }
         });
     </script>
 }
@@ -216,5 +236,20 @@
     </div>
 
 </div> <!-- End of Controller -->
-
+</div> <!-- End of Controller -->
+    <div class="modal fade" id="confirmMsg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Success message</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        Order added!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }

@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Drink;
 import models.Order;
+import models.OrderItem;
 import models.Pizza;
 import models.cart.Cart;
 import models.cart.CartItem;
@@ -112,21 +113,27 @@ public class Orders extends Controller {
         Cart cart = Ebean.find(Cart.class).where().eq("id", Long.parseLong(cartIdString)).findUnique();
         List<CartItem> items = Ebean.find(CartItem.class).where().eq("cart", cart).findList();
 
-        Order order = null;
-
-        DynamicForm form = DynamicForm.form().bindFromRequest(request());
-        String pizzaIdString = form.get("pizzaId");
-        String drinkIdString = form.get("drinkId");
-
+        Order order = new Order();
+        order.orderStatus = Order.OrderStatus.NEW;
+        order.save();
         for (CartItem item : items) {
-            if (!StringUtils.isEmpty(pizzaIdString) && item.pizza != null && item.pizza.id.equals(Long.parseLong(pizzaIdString))) {
-                order.pizzaList.add(item.pizza);
+            if (item.pizza != null) {
+                OrderItem orderItem = new OrderItem();
+                orderItem.pizza = item.pizza;
+                orderItem.order = order;
+                orderItem.save();
+                order.orderItems.add(orderItem);
             }
-            if (!StringUtils.isEmpty(drinkIdString) && item.drink != null && item.drink.id.equals(Long.parseLong(drinkIdString))) {
-                order.drinkList.add(item.drink);
+            if (item.drink != null) {
+                OrderItem orderItem = new OrderItem();
+                orderItem.drink = item.drink;
+                orderItem.order = order;
+                orderItem.save();
+                order.orderItems.add(orderItem);
             }
         }
 
+        order.save();
         return ok();
 
     }
@@ -139,5 +146,16 @@ public class Orders extends Controller {
         ObjectNode result = Json.newObject();
         result.put("orderList", Order.queryOrderJson());
         return ok(result);
+    }
+    public static Result clearCart(){
+        String cartIdString = session().get(Cart.SESSION_CART_ID);
+        Cart cart = Ebean.find(Cart.class).where().eq("id", Long.parseLong(cartIdString)).findUnique();
+        for (CartItem cartItem : cart.items) {
+            cartItem.delete();
+        }
+
+        cart.items.clear();
+        cart.save();
+        return ok();
     }
 }

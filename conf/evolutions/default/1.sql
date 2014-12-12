@@ -52,6 +52,14 @@ create table orders (
   constraint pk_orders primary key (id))
 ;
 
+create table order_item (
+  id                        bigint not null,
+  pizza_id                  bigint,
+  drink_id                  bigint,
+  order_id                  bigint,
+  constraint pk_order_item primary key (id))
+;
+
 create table deskCode (
   order_id                  bigint,
   code                      bigint,
@@ -111,6 +119,8 @@ create sequence invoice_seq;
 
 create sequence orders_seq;
 
+create sequence order_item_seq;
+
 create sequence pizza_seq;
 
 create sequence toppings_seq;
@@ -129,10 +139,16 @@ alter table invoice add constraint fk_invoice_desk_5 foreign key (desk_id) refer
 create index ix_invoice_desk_5 on invoice (desk_id);
 alter table invoice add constraint fk_invoice_order_6 foreign key (order_id) references orders (id);
 create index ix_invoice_order_6 on invoice (order_id);
-alter table deskCode add constraint fk_deskCode_order_7 foreign key (order_id) references orders (id);
-create index ix_deskCode_order_7 on deskCode (order_id);
-alter table pizza add constraint fk_pizza_order_8 foreign key (order_id) references orders (id);
-create index ix_pizza_order_8 on pizza (order_id);
+alter table order_item add constraint fk_order_item_pizza_7 foreign key (pizza_id) references pizza (id);
+create index ix_order_item_pizza_7 on order_item (pizza_id);
+alter table order_item add constraint fk_order_item_drink_8 foreign key (drink_id) references drinks (id);
+create index ix_order_item_drink_8 on order_item (drink_id);
+alter table order_item add constraint fk_order_item_order_9 foreign key (order_id) references orders (id);
+create index ix_order_item_order_9 on order_item (order_id);
+alter table deskCode add constraint fk_deskCode_order_10 foreign key (order_id) references orders (id);
+create index ix_deskCode_order_10 on deskCode (order_id);
+alter table pizza add constraint fk_pizza_order_11 foreign key (order_id) references orders (id);
+create index ix_pizza_order_11 on pizza (order_id);
 
 
 
@@ -160,6 +176,8 @@ drop table if exists invoice cascade;
 
 drop table if exists orders cascade;
 
+drop table if exists order_item cascade;
+
 drop table if exists deskCode cascade;
 
 drop table if exists pizza cascade;
@@ -181,6 +199,8 @@ drop sequence if exists drinks_seq;
 drop sequence if exists invoice_seq;
 
 drop sequence if exists orders_seq;
+
+drop sequence if exists order_item_seq;
 
 drop sequence if exists pizza_seq;
 

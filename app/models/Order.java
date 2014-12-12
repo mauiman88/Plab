@@ -40,10 +40,7 @@ public class Order extends Model {
     public OrderStatus orderStatus;
 
     @OneToMany( mappedBy = "order")
-    public List<Pizza> pizzaList;
-
-    @OneToMany( mappedBy = "order")
-    public List<Drink> drinkList;
+    public List<OrderItem> orderItems;
 
     @OneToOne( mappedBy = "order", cascade = CascadeType.ALL)
     public Invoice invoice;

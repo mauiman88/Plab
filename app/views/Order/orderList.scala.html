@@ -1,42 +1,57 @@
-@()
+@(orderList: List[Order])
 
 @scripts = {
 
 }
 
 @main_admin("Orderlist", scripts) {
-        <div class="panel panel-default" style="margin-top: 20px">
-            <!-- Default panel contents -->
-        <div class="panel-heading" style="text-align : center"><span class="glyphicon glyphicon-glass"></span> <b>Order list</b></div>
-        <div class="panel-body">
-                <!-- Table -->
-            <table class="table">
-                <thead>
-                    <th class="col1">ID</th>
-                    <th class="col2">Status</th>
-                    <th class="col3">Pizzas</th>
-                    <th class="col4">Drinks</th>
-                </thead>
-                <tbody>
-                @for(order <- orderList) {
-                    <tr>
-                        <td class="col1">@order.id</td>
-                        <td class="col2">@order.orderStatus.getName</td>
 
 <div ng-controller="OrderListController">
     <div class="row" id="index-boxes">
+        <div class="panel panel-default" style="margin-top: 20px">
+                <!-- Default panel contents -->
+            <div class="panel-heading" style="text-align : center"><span class="glyphicon glyphicon-glass"></span> <b>Order list</b></div>
+            <div class="panel-body">
+                    <!-- Table -->
+                <table class="table">
+                    <thead>
+                        <th class="col1">ID</th>
+                        <th class="col2">Status</th>
+                        <th class="col3">Pizzas</th>
+                        <th class="col4">Drinks</th>
+                    </thead>
+                    <tbody>
+                    @for(order <- orderList) {
+                        @for(oi <- order.orderItems) {
+                            <tr>
+                                <td class="col1">@order.id</td>
+                                <td class="col2">@order.orderStatus.getName()</td>
 
-                        <td class="col4">
-                        @for(drink <- order.drinkList) {
-                            @drink.name
+                                <td class="col3">
+                                    @if(oi.pizza != null) {
+                                        @oi.pizza.name
+                                    } else {
+                                        -
+                                    }
+                                </td>
+                                <td class="col4">
+                                    @if(oi.drink != null) {
+                                        @oi.drink.name
+                                    } else {
+                                        -
+                                    }
+                                </td>
+
+                            </tr>
+
                         }
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-        </div>
 
+                    }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
 </div>
 
