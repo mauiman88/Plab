@@ -23,4 +23,6 @@ public class OrderItem extends Model {
 
     @ManyToOne
     public Order order;
+
+    public Long quantity;
 }

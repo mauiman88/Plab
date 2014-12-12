@@ -15,16 +15,17 @@
                     <!-- Table -->
                 <table class="table">
                     <thead>
-                        <th class="col1">ID</th>
+                        <th class="col1">Desk</th>
                         <th class="col2">Status</th>
-                        <th class="col3">Pizzas</th>
-                        <th class="col4">Drinks</th>
+                        <th class="col3">Pizza</th>
+                        <th class="col4">Drink</th>
+                        <th class="col5">Quantity</th>
                     </thead>
                     <tbody>
                     @for(order <- orderList) {
                         @for(oi <- order.orderItems) {
                             <tr>
-                                <td class="col1">@order.id</td>
+                                <td class="col1">@order.desk.deskNumber</td>
                                 <td class="col2">@order.orderStatus.getName()</td>
 
                                 <td class="col3">
@@ -41,7 +42,7 @@
                                         -
                                     }
                                 </td>
-
+                                <td class="col5">@oi.quantity</td>
                             </tr>
 
                         }

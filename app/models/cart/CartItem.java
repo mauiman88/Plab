@@ -25,7 +25,7 @@ public class CartItem extends Model {
     @ManyToOne
     public Pizza pizza;
 
-    public Integer quantity;
+    public Long quantity;
 
     public ObjectNode toJson() {
         ObjectNode json = Json.newObject();

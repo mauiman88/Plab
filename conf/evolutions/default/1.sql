@@ -13,7 +13,7 @@ create table cart_item (
   cart_id                   bigint,
   drink_id                  bigint,
   pizza_id                  bigint,
-  quantity                  integer,
+  quantity                  bigint,
   constraint pk_cart_item primary key (id))
 ;
 
@@ -48,6 +48,7 @@ create table invoice (
 create table orders (
   id                        bigint not null,
   order_status              varchar(3),
+  desk_id                   bigint,
   constraint ck_orders_order_status check (order_status in ('NEW')),
   constraint pk_orders primary key (id))
 ;
@@ -57,6 +58,7 @@ create table order_item (
   pizza_id                  bigint,
   drink_id                  bigint,
   order_id                  bigint,
+  quantity                  bigint,
   constraint pk_order_item primary key (id))
 ;
 
@@ -139,16 +141,18 @@ alter table invoice add constraint fk_invoice_desk_5 foreign key (desk_id) refer
 create index ix_invoice_desk_5 on invoice (desk_id);
 alter table invoice add constraint fk_invoice_order_6 foreign key (order_id) references orders (id);
 create index ix_invoice_order_6 on invoice (order_id);
-alter table order_item add constraint fk_order_item_pizza_7 foreign key (pizza_id) references pizza (id);
-create index ix_order_item_pizza_7 on order_item (pizza_id);
-alter table order_item add constraint fk_order_item_drink_8 foreign key (drink_id) references drinks (id);
-create index ix_order_item_drink_8 on order_item (drink_id);
-alter table order_item add constraint fk_order_item_order_9 foreign key (order_id) references orders (id);
-create index ix_order_item_order_9 on order_item (order_id);
-alter table deskCode add constraint fk_deskCode_order_10 foreign key (order_id) references orders (id);
-create index ix_deskCode_order_10 on deskCode (order_id);
-alter table pizza add constraint fk_pizza_order_11 foreign key (order_id) references orders (id);
-create index ix_pizza_order_11 on pizza (order_id);
+alter table orders add constraint fk_orders_desk_7 foreign key (desk_id) references desk (id);
+create index ix_orders_desk_7 on orders (desk_id);
+alter table order_item add constraint fk_order_item_pizza_8 foreign key (pizza_id) references pizza (id);
+create index ix_order_item_pizza_8 on order_item (pizza_id);
+alter table order_item add constraint fk_order_item_drink_9 foreign key (drink_id) references drinks (id);
+create index ix_order_item_drink_9 on order_item (drink_id);
+alter table order_item add constraint fk_order_item_order_10 foreign key (order_id) references orders (id);
+create index ix_order_item_order_10 on order_item (order_id);
+alter table deskCode add constraint fk_deskCode_order_11 foreign key (order_id) references orders (id);
+create index ix_deskCode_order_11 on deskCode (order_id);
+alter table pizza add constraint fk_pizza_order_12 foreign key (order_id) references orders (id);
+create index ix_pizza_order_12 on pizza (order_id);
 
 
 

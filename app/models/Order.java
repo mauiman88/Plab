@@ -42,6 +42,9 @@ public class Order extends Model {
     @OneToMany( mappedBy = "order")
     public List<OrderItem> orderItems;
 
+    @ManyToOne
+    public Desk desk;
+
     @OneToOne( mappedBy = "order", cascade = CascadeType.ALL)
     public Invoice invoice;
 

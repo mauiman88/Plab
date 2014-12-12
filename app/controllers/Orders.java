@@ -46,14 +46,10 @@ public class Orders extends Controller {
             if(!StringUtils.isEmpty(pizzaIdString) && item.pizza != null && item.pizza.id.equals(Long.parseLong(pizzaIdString))) {
                 item.quantity++;
                 item.save();
-                //form.reject("cartError", "Already added");
-                //return badRequest(form.errorsAsJson());
                 return ok();
             } else if(!StringUtils.isEmpty(drinkIdString) && item.drink != null && item.drink.id.equals(Long.parseLong(drinkIdString))) {
                 item.quantity++;
                 item.save();
-                //form.reject("cartError", "Already added");
-                //return badRequest(form.errorsAsJson());
                 return ok();
             }
         }
@@ -68,7 +64,7 @@ public class Orders extends Controller {
             Drink drink = Ebean.find(Drink.class).where().eq("id", Long.parseLong(drinkIdString)).findUnique();
             cartItem.drink = drink;
         }
-        cartItem.quantity = Integer.parseInt(quantityString);
+        cartItem.quantity = Long.parseLong(quantityString);
         cartItem.cart = cart;
         cartItem.save();
         cart.items.add(cartItem);
@@ -115,12 +111,15 @@ public class Orders extends Controller {
 
         Order order = new Order();
         order.orderStatus = Order.OrderStatus.NEW;
+        order.desk = Application.getLocalDesk();
         order.save();
+
         for (CartItem item : items) {
             if (item.pizza != null) {
                 OrderItem orderItem = new OrderItem();
                 orderItem.pizza = item.pizza;
                 orderItem.order = order;
+                orderItem.quantity = item.quantity;
                 orderItem.save();
                 order.orderItems.add(orderItem);
             }
@@ -128,11 +127,11 @@ public class Orders extends Controller {
                 OrderItem orderItem = new OrderItem();
                 orderItem.drink = item.drink;
                 orderItem.order = order;
+                orderItem.quantity = item.quantity;
                 orderItem.save();
                 order.orderItems.add(orderItem);
             }
         }
-
         order.save();
         return ok();
 
