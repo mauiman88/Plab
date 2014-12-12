@@ -40,7 +40,11 @@ controllers.routes.javascript.Application.authenticate
 }
 
 @main("Login", scripts) {
-<div ng-controller="LoginController">
+<div style="padding: auto">
+    <img class="col-sm-offset-4 col-sm-4" src="@routes.Assets.at("images/pizza.jpg")" alt=""/>
+</div>
+<div ng-controller="LoginController" class="col-sm-offset-2 col-sm-8">
+
     <form id="loginForm" class="form" role="form" ng-submit="authenticate()">
         <div class="form-group {{ errors.email ? 'has-error' : '' }}">
             <label for="inputEmail" class="control-label">Email</label>
