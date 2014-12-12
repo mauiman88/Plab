@@ -199,10 +199,10 @@
                         <div >{{item.quantity}}</div>
                         <div ng-if="item.pizza != null">ár: {{item.quantity}}*{{item.pizza.price}} Ft</div>
                         <div ng-if="item.drink != null">ár: {{item.quantity}}*{{item.drink.price}} Ft</div>
-                        <button ng-if="item.pizza != null" class="btn btn-danger" ng-click="removeFromCart(item.pizza.id, '')"><span class="glyphicon glyphicon-trash"></span>Delete</button>
-                        <button ng-if="item.drink != null" class="btn btn-danger" ng-click="removeFromCart('', item.drink.id)"><span class="glyphicon glyphicon-trash"></span>Delete</button>
+                        <button ng-if="item.pizza != null" class="btn btn-danger" ng-click="removeFromCart(item.pizza.id, '')"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+                        <button ng-if="item.drink != null" class="btn btn-danger" ng-click="removeFromCart('', item.drink.id)"><span class="glyphicon glyphicon-trash"></span> Delete</button>
                     </div>
-                    <button class="btn btn-success pull-right" ng-click=""><span class ="glyphicon glyphicon-ok"></span>Order</button>
+                    <button class="btn btn-success pull-right" ng-click=""><span class ="glyphicon glyphicon-ok"></span> Order</button>
             </div>
         </div>
     </div>

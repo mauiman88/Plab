@@ -26,7 +26,7 @@
                                 <td class="col2">@drink.description</td>
                                 <td class="col3"><span>@("%1.0f".format(drink.price))</span> Ft</td>
                                 @if(desk != null) {
-                                    <td class="col4"><button class="btn btn-success" ng-click="$parent.addToCart('',@drink.id)"><span class="glyphicon glyphicon-plus-sign"></span>Add to cart</button></td>
+                                    <td class="col4"><button class="btn btn-success" ng-click="$parent.addToCart('',@drink.id)"><span class="glyphicon glyphicon-plus-sign"></span> Add to cart</button></td>
                                 }
                             </tr>
                         }
@@ -53,7 +53,7 @@
                             <td class="col2">@pizza.size cm</td>
                             <td class="col3"><span>@("%1.0f".format(pizza.price))</span> Ft</td>
                             @if(desk != null) {
-                                <td class="col4"><button class="btn btn-success" ng-click="$parent.addToCart(@pizza.id, ''  )"><span class="glyphicon glyphicon-plus-sign"></span>Add to cart</button></td>
+                                <td class="col4"><button class="btn btn-success" ng-click="$parent.addToCart(@pizza.id, ''  )"><span class="glyphicon glyphicon-plus-sign"></span> Add to cart</button></td>
                             }
                         </tr>
                     }
